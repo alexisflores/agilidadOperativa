@@ -74,4 +74,50 @@ st.write("### Progreso en Indicadores:")
 fig_sensing, ax_sensing = plt.subplots()
 ax_sensing.bar(df_sensing["Indicador"], df_sensing["Valor Actual"], color='blue', label="Actual")
 ax_sensing.bar(df_sensing["Indicador"], df_sensing["Meta"], color='orange', alpha=0.5, label="Meta")
-ax_sensing.set_title("Progreso en
+ax_sensing.set_title("Progreso en Indicadores de Sensing")
+ax_sensing.legend()
+st.pyplot(fig_sensing)
+
+# Tablero de captación
+st.header("Capacidad: Captación (Seizing)")
+st.write("### Información de OKRs y KPIs:")
+st.dataframe(df_seizing[["Indicador", "OKR", "KPI"]])
+
+st.write("### Progreso en Indicadores:")
+fig_seizing, ax_seizing = plt.subplots()
+ax_seizing.bar(df_seizing["Indicador"], df_seizing["Valor Actual"], color='green', label="Actual")
+ax_seizing.bar(df_seizing["Indicador"], df_seizing["Meta"], color='orange', alpha=0.5, label="Meta")
+ax_seizing.set_title("Progreso en Indicadores de Seizing")
+ax_seizing.legend()
+st.pyplot(fig_seizing)
+
+# Tablero de configuración
+st.header("Capacidad: Configuración (Configuring)")
+st.write("### Información de OKRs y KPIs:")
+st.dataframe(df_configuring[["Indicador", "OKR", "KPI"]])
+
+st.write("### Progreso en Indicadores:")
+fig_configuring, ax_configuring = plt.subplots()
+ax_configuring.bar(df_configuring["Indicador"], df_configuring["Valor Actual"], color='red', label="Actual")
+ax_configuring.bar(df_configuring["Indicador"], df_configuring["Meta"], color='orange', alpha=0.5, label="Meta")
+ax_configuring.set_title("Progreso en Indicadores de Configuring")
+ax_configuring.legend()
+st.pyplot(fig_configuring)
+
+# --- Cultura y Liderazgo Digital ---
+st.header("Cultura y Liderazgo Digital")
+st.write("**OKR Adicional:** Fomentar la innovación a través de la colaboración interdisciplinaria.")
+st.write("- **Objetivo:** Incrementar la colaboración entre departamentos.")
+st.write("- **KPI:** Número de proyectos colaborativos lanzados por trimestre.")
+data_cultura = {
+    "Periodo": ["Q1", "Q2", "Q3", "Q4"],
+    "Proyectos Colaborativos": [5, 7, 10, 12]
+}
+df_cultura = pd.DataFrame(data_cultura)
+st.write("### Evolución de Proyectos Colaborativos:")
+fig_cultura, ax_cultura = plt.subplots()
+ax_cultura.plot(df_cultura["Periodo"], df_cultura["Proyectos Colaborativos"], marker='o', label="Proyectos")
+ax_cultura.set_title("Evolución de Proyectos Colaborativos")
+ax_cultura.set_ylabel("Número de Proyectos")
+ax_cultura.legend()
+st.pyplot(fig_cultura)
