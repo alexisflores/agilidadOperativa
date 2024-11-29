@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # --- Simulación de Datos ---
 data_sensing = {
@@ -65,44 +66,40 @@ df_configuring = pd.DataFrame(data_configuring)
 # --- Visualización en Streamlit ---
 st.title("Dashboard de Agilidad Operativa")
 
+# Función para generar gráficos comparativos
+def mostrar_grafico_comparativo(df, capacidad):
+    st.write(f"### Información de OKRs y KPIs ({capacidad}):")
+    st.dataframe(df[["Indicador", "OKR", "KPI"]])
+
+    st.write("### Progreso en Indicadores:")
+    x = np.arange(len(df["Indicador"]))  # Posiciones para las barras
+    width = 0.35  # Ancho de las barras
+
+    fig, ax = plt.subplots()
+    ax.bar(x - width/2, df["Valor Actual"], width, label='Actual', color='blue')
+    ax.bar(x + width/2, df["Meta"], width, label='Meta', color='orange')
+
+    # Etiquetas y título
+    ax.set_xlabel("Indicadores")
+    ax.set_ylabel("Valores")
+    ax.set_title(f"Progreso en Indicadores de {capacidad}")
+    ax.set_xticks(x)
+    ax.set_xticklabels(df["Indicador"], rotation=45, ha="right")
+    ax.legend()
+
+    st.pyplot(fig)
+
 # Tablero de detección
 st.header("Capacidad: Detección (Sensing)")
-st.write("### Información de OKRs y KPIs:")
-st.dataframe(df_sensing[["Indicador", "OKR", "KPI"]])
-
-st.write("### Progreso en Indicadores:")
-fig_sensing, ax_sensing = plt.subplots()
-ax_sensing.bar(df_sensing["Indicador"], df_sensing["Valor Actual"], color='blue', label="Actual")
-ax_sensing.bar(df_sensing["Indicador"], df_sensing["Meta"], color='orange', alpha=0.5, label="Meta")
-ax_sensing.set_title("Progreso en Indicadores de Sensing")
-ax_sensing.legend()
-st.pyplot(fig_sensing)
+mostrar_grafico_comparativo(df_sensing, "Sensing")
 
 # Tablero de captación
 st.header("Capacidad: Captación (Seizing)")
-st.write("### Información de OKRs y KPIs:")
-st.dataframe(df_seizing[["Indicador", "OKR", "KPI"]])
-
-st.write("### Progreso en Indicadores:")
-fig_seizing, ax_seizing = plt.subplots()
-ax_seizing.bar(df_seizing["Indicador"], df_seizing["Valor Actual"], color='green', label="Actual")
-ax_seizing.bar(df_seizing["Indicador"], df_seizing["Meta"], color='orange', alpha=0.5, label="Meta")
-ax_seizing.set_title("Progreso en Indicadores de Seizing")
-ax_seizing.legend()
-st.pyplot(fig_seizing)
+mostrar_grafico_comparativo(df_seizing, "Seizing")
 
 # Tablero de configuración
 st.header("Capacidad: Configuración (Configuring)")
-st.write("### Información de OKRs y KPIs:")
-st.dataframe(df_configuring[["Indicador", "OKR", "KPI"]])
-
-st.write("### Progreso en Indicadores:")
-fig_configuring, ax_configuring = plt.subplots()
-ax_configuring.bar(df_configuring["Indicador"], df_configuring["Valor Actual"], color='red', label="Actual")
-ax_configuring.bar(df_configuring["Indicador"], df_configuring["Meta"], color='orange', alpha=0.5, label="Meta")
-ax_configuring.set_title("Progreso en Indicadores de Configuring")
-ax_configuring.legend()
-st.pyplot(fig_configuring)
+mostrar_grafico_comparativo(df_configuring, "Configuring")
 
 # --- Cultura y Liderazgo Digital ---
 st.header("Cultura y Liderazgo Digital")
